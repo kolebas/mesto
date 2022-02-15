@@ -1,0 +1,10 @@
+.discover {
+  margin: 22px 0 25px 0;  
+  display: grid;
+  grid-template-columns: 294px;
+  grid-template-rows: max-content;
+  grid-template-areas: 
+              "title edit-button"
+              "subtitle subtitle";
+  align-items: baseline;            
+}

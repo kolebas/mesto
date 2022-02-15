@@ -1,0 +1,13 @@
+.popup {
+  position: absolute;
+  background: #000000;
+  background-color: #FFF;
+  width: 430px;
+  height: 330px;
+  top: 195px;
+  left: 425px;
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  display: none;
+  flex-flow: column;
+}

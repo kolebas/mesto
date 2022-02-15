@@ -1,6 +1,9 @@
 // Находим форму в DOM
 let formElement = document.querySelector('.popup');
 let editButton = document.querySelector('.discover__edit-button');
+let closeButton = document.querySelector('.popup__close-button');
+var discoverName = document.querySelector('.discover__title').textContent;
+var discoverJob = document.querySelector('.discover__subtitle').textContent;
 
 // Обработчик «отправки» формы, хотя пока
 // она никуда отправляться не будет
@@ -10,8 +13,8 @@ function formSubmitHandler (evt) {
                         // О том, как это делать, расскажем позже.
 
   // Находим поля формы в DOM
-  let nameInput = '';// Воспользуйтесь инструментом .querySelector()
-  let jobInput = '';// Воспользуйтесь инструментом .querySelector()
+  let nameInput = document.querySelector('.discover__title').value;// Воспользуйтесь инструментом .querySelector()
+  let jobInput = document.querySelector('.discover__subtitle').value;// Воспользуйтесь инструментом .querySelector()
 
   
 
@@ -24,9 +27,6 @@ function formSubmitHandler (evt) {
 
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
-formElement.addEventListener('submit', formSubmitHandler);
-editButton.addEventListener('click', formEdit);
-
 
 function createCards() {         
   let card = document.createElement ('div');
@@ -59,21 +59,30 @@ function createCards() {
     },
   ];
   cards.forEach(element => 
-    card.innerHTML = card.innerHTML+`
+    sectionCards.insertAdjacentHTML('afterbegin',`
       <div class="cards__item">
         <img class="card__image" src="` + element['image'] + `" alt="">
         <div class="card__rectangle">
           <h2 class="card__title">` + element['title'] + `</h2>
           <img class="card__like-button" src="./images/card-heart.svg" alt=""/>
         </div>
-      </div>`,     
-    sectionCards.appendChild(card) 
+      </div>`),     
   )           
 
 }
-function formEdit(){
+function showFormEdit(){
   formElement.classList.add('popup_show');
-  
+  let inputs = document.querySelectorAll('input');
+  inputs[0].value = discoverName;
+  inputs[1].value = discoverJob;  
+}
+
+function closeFormEdit(){
+  formElement.classList.remove('popup_show');
 }
 
 document.body.onload = createCards;
+
+formElement.addEventListener('submit', formSubmitHandler);
+editButton.addEventListener('click', showFormEdit);
+closeButton.addEventListener('click', closeFormEdit);

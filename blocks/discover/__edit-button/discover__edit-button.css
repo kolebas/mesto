@@ -9,8 +9,10 @@
   width: 24px;
   height: 24px;
   margin-left: 18px;
+  transition: opacity, .3s;
 }
 
 .discover__edit-button:hover{
   cursor: pointer;
+  opacity: .6;
 }

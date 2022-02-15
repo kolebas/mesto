@@ -1,0 +1,8 @@
+.card__like-button {
+  transition: opacity, .3;
+  cursor: pointer;
+}
+
+.card__like-button:hover {
+ opacity: .6;
+}

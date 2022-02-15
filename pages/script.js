@@ -63,8 +63,8 @@ function createCards() {
       <div class="cards__item">
         <img class="card__image" src="` + element['image'] + `" alt="">
         <div class="card__rectangle">
-          <h2>` + element['title'] + `</h2>
-          <img src="/images/card-heart.svg" alt=""/>
+          <h2 class="card__title">` + element['title'] + `</h2>
+          <img class="card__like-button" src="./images/card-heart.svg" alt=""/>
         </div>
       </div>`,     
     sectionCards.appendChild(card) 

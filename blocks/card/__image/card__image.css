@@ -2,3 +2,9 @@
   max-width: 282px;
   border-radius: 10px 10px 0 0;
 }
+
+@media screen and (max-width: 500px) {
+  .card__image {
+    max-width: 100%;    
+  }  
+}

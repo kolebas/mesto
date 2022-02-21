@@ -13,9 +13,9 @@
         <div class="header__line"></div>
       </header>
       <main>
-        <section class="profile page__profile">          
-          <img class="profile__avatar" src="./images/avatar.jpg"/>
+        <section class="profile page__profile">
           <div class="discover profile__info">
+            <img class="discover__avatar" src="./images/avatar.jpg" alt="Изображение исселодователя"/>
             <h1 class="discover__title">Жак-Ив Кусто</h1>
             <div class="discover__edit-button"></div>
             <p class="discover__subtitle">Исследователь океана</p>            
@@ -23,63 +23,22 @@
           <div class="profile__add-button"></div>          
         </section>
       <section class="page__cards cards">
-        <!--<div class="cards__item card">
-          <img class="card__image" src="/images/dombai.jpg" alt="">
-          <div class="card__rectangle">
-            <h2>Карачевск</h2>
-            <img src="/images/card-heart.svg" alt=""/>
-          </div>
-        </div>
-        <div class="cards__item">
-          <img class="card__image" src="/images/elbrus.jpg" alt="">
-          <div class="card__rectangle">
-            <h2>Гора Эльбрус</h2>
-            <img src="/images/card-heart.svg" alt=""/>
-          </div>
-        </div>
-        <div class="cards__item">
-          <img class="card__image" src="/images/dombai.jpg" alt="">
-          <div class="card__rectangle">
-            <h2>Домбай</h2>
-            <img src="/images/card-heart.svg" alt=""/>
-          </div>
-        </div>
-        <div class="cards__item">
-          <img class="card__image" src="/images/elbrus.jpg" alt="">
-          <div class="card__rectangle">
-            <h2>Гора Эльбрус</h2>
-            <img src="/images/card-heart.svg" alt=""/>
-          </div>
-        </div>
-        <div class="cards__item">
-          <img class="card__image" src="/images/dombai.jpg" alt="">
-          <div class="card__rectangle">
-            <h2>Домбай</h2>
-            <img src="/images/card-heart.svg" alt=""/>
-          </div>
-        </div>
-        <div class="cards__item">
-          <img class="card__image" src="/images/elbrus.jpg" alt="">
-          <div class="card__rectangle">
-            <h2>Карачевск</h2>
-            <img src="/images/card-heart.svg" alt=""/>
-          </div>
-        </div>-->
       </section>
-      <form class="popup" action="submit">
-        <h2 class="popup__title">Редактировать профиль</h2>
-        <input type="text" class="popup__input">
-        <input type="text" class="popup__input">
-        <button class="popup__button">
-          <p class="popup__button-title">Сохранить</p>
-        </button>
-        <div class="popup__close-button"></div>
-      </form>
+      <section class="page__popup">
+        <form class="popup" action="submit">
+          <h2 class="popup__title">Редактировать профиль</h2>
+          <input type="text" class="popup__input">
+          <input type="text" class="popup__input">
+          <button class="popup__button">Сохранить
+          </button>
+          <div class="popup__close-button"></div>
+        </form>
+      </section>    
       </main>
       <footer class="footer page__footer">        
         <p class="footer__copyright">&copy;2022. Mesto Russia</p>        
       </footer>
-    </div>
-  </body>  
+    </div>      
   <script src="./pages/script.js"></script>
+  </body>
 </html>

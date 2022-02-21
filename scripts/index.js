@@ -60,7 +60,7 @@ function createCards() {
     },
   ];
   cards.forEach(element => 
-    sectionCards.insertAdjacentHTML('afterbegin',`
+    sectionCards.insertAdjacentHTML('beforeend',`
       <div class="cards__item">
         <img class="card__image" src="` + element['image'] + `" alt="">
         <div class="card__rectangle">

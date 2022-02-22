@@ -7,8 +7,9 @@
   grid-area: avatar;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 590px) {
   .discover__avatar{
     margin: 0 auto 22.25px auto;
+    justify-self: center;
   }  
 }

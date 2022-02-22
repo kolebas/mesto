@@ -8,7 +8,7 @@
   align-items: baseline;            
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 590px) {
   .discover{
     margin-top: 0;
     grid-template-areas: 

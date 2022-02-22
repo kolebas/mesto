@@ -13,7 +13,7 @@
   }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 595px) {
   .cards {
     grid-template-columns: repeat(1, 282px);
   }

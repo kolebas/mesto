@@ -1,21 +1,23 @@
 // Находим форму в DOM
-let formSection = document.querySelector('.page__popup');
-let formElement = document.querySelector('.popup');
+let formDiv = document.querySelector('.popup');
+let formElement = formDiv.querySelector('.popup__container');
 let editButton = document.querySelector('.discover__edit-button');
-let closeButton = document.querySelector('.popup__close-button');
-var discoverName = document.querySelector('.discover__title');
-var discoverJob = document.querySelector('.discover__subtitle');
+let closeButton = formElement.querySelector('.popup__close-button');
+let inputDiscoverName = formElement.querySelector('#name');
+let inputDiscoverJob = formElement.querySelector('#job');
+let discoverName = document.querySelector('.discover__title');
+let discoverJob = document.querySelector('.discover__subtitle');
 
 // Обработчик «отправки» формы, хотя пока
 // она никуда отправляться не будет
-function formSubmitHandler (evt) {
+function saveForm (evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
                         // Так мы можем определить свою логику отправки.
                         // О том, как это делать, расскажем позже.
 
 
-  discoverName.innerText = inputs[0].value;
-  discoverJob.innerText = inputs[1].value;
+  discoverName.textContent = inputDiscoverName.value;
+  discoverJob.textContent = inputDiscoverJob.value;
   
 
   // Получите значение полей из свойства value
@@ -30,16 +32,15 @@ function formSubmitHandler (evt) {
 // он будет следить за событием “submit” - «отправка»
 
 function showFormEdit(){  
-  formElement.classList.add('popup_opened');  
-  inputs = document.querySelectorAll('input');
-  inputs[0].value = discoverName.textContent;
-  inputs[1].value = discoverJob.textContent;  
+  formDiv.classList.add('popup_opened');
+  inputDiscoverName.value = discoverName.textContent;
+  inputDiscoverJob.value = discoverJob.textContent;  
 }
 
 function closeFormEdit(){
-  formSection.classList.remove('popup_opened');
+  formDiv.classList.remove('popup_opened');
 }
 
-formElement.addEventListener('submit', formSubmitHandler);
 editButton.addEventListener('click', showFormEdit);
+formElement.addEventListener('submit', saveForm);
 closeButton.addEventListener('click', closeFormEdit);

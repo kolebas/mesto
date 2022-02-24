@@ -7,7 +7,7 @@
   justify-items: center;
 }
 
-@media screen and (max-width: 880px) {
+@media screen and (max-width: 900px) {
   .cards {
     grid-template-columns: repeat(2, 282px);
   }

@@ -10,7 +10,6 @@
     <div class="page">
       <header class="header page__header">
         <div class="header__logo"></div>
-        <div class="header__line"></div>
       </header>
       <main>
         <section class="profile page__profile">
@@ -66,14 +65,14 @@
           </div>
         </div>
       </section>
-      <div class="page__popup popup">
+      <div class="popup">
         <div class="popup__container">
           <h2 class="popup__title">Редактировать профиль</h2>
-          <form class="popup__form" action="submit">            
+          <form class="popup__form" name="profile" action="submit">            
             <input id="name" type="text" name="name" class="popup__input">
             <input id="job" type="text" name="job" class="popup__input">
             <button class="popup__button" type="submit" aria-label="Save">Сохранить</button>
-            <div class="popup__close-button"></div>
+            <button class="popup__close-button" type="button"></button>
           </form>
         </div>
       </div>    

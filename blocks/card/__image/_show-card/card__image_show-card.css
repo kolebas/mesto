@@ -1,0 +1,7 @@
+.card__image_show-card {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  max-width: 75vw;
+  max-height: 75vh;
+}

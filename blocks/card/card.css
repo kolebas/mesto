@@ -2,4 +2,9 @@
   border-radius: 10px;
   background-color: #fff;
   max-width: 100%;
+  position: relative;
+}
+
+.card:hover {
+  cursor: pointer;
 }

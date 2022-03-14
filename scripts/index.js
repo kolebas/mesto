@@ -38,6 +38,7 @@ function renderPage(){
 function renderCard(card) {
   const cardElement = cardTemplate.content.firstElementChild.cloneNode(true);
   cardElement.querySelector('.card__title').textContent = card.name;
+  cardElement.querySelector('.card__image').alt = card.name;
   cardElement.querySelector('.card__image').src = card.link;
   cardsSection.prepend(cardElement);
   const likeButton = document.querySelector('.card__like-button');
@@ -74,6 +75,7 @@ function showCard(form, title, img){
   cardsSection.after(popup);
   popup.querySelector('#card-title').textContent = title;
   popup.querySelector('#card-title').classList.add('popup__title_show-card');
+  popup.querySelector('#card-image').alt = title; 
   popup.querySelector('#card-image').src = img; 
   popup.querySelector('#card-image').classList.add('card__image_show-card');
   popup.querySelector('.popup__container').classList.add('popup__container_show-card');

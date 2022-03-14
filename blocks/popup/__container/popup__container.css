@@ -1,6 +1,6 @@
 .popup__container {
   background-color: #FFF;
-  width: 430px;
+  max-width: 430px;
   border-radius: 10px;
   display: flex;
   flex-flow: column;

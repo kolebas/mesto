@@ -41,15 +41,9 @@ function renderCard(card) {
   cardElement.querySelector('.card__image').alt = card.name;
   cardElement.querySelector('.card__image').src = card.link;
   cardsSection.prepend(cardElement);
-  const likeButton = document.querySelector('.card__like-button');
-  likeButton.addEventListener('click', addLike);
-  cardElement.addEventListener('click', () => showCard('#show-card', card.name, card.link));  
-  setCardActions(cardElement);
-}
-
-function removeCard(evt) {
-  const card = evt.currentTarget.closest('.card'); 
-  card.remove();
+  cardElement.querySelector('.card__like-button').addEventListener('click', addLike); 
+  cardElement.querySelector('.card__delete-button').addEventListener('click', (evt) => {evt.target.closest('.card').remove()});  
+  cardElement.addEventListener('click', () => showCard('#show-card', card.name, card.link)); 
 }
 
 function showFormEdit(form){
@@ -73,11 +67,13 @@ function showFormAddCard(form){
 function showCard(form, title, img){
   const popup = document.querySelector(form).content.firstElementChild.cloneNode(true);
   cardsSection.after(popup);
-  popup.querySelector('#card-title').textContent = title;
-  popup.querySelector('#card-title').classList.add('popup__title_show-card');
-  popup.querySelector('#card-image').alt = title; 
-  popup.querySelector('#card-image').src = img; 
-  popup.querySelector('#card-image').classList.add('card__image_show-card');
+  const title = popup.querySelector('#card-title');
+  const image = popup.querySelector('#card-image');
+  title.textContent = title;
+  title.classList.add('popup__title_show-card');
+  image.alt = title; 
+  image.src = img; 
+  image.classList.add('card__image_show-card');
   popup.querySelector('.popup__container').classList.add('popup__container_show-card');
   popup.classList.add('popup_opened', 'popup_show-card');
   setPopupActions(); 
@@ -111,10 +107,6 @@ function addLike(evt){
   evt.target.classList.toggle('card__like-button_active')
 }
 
-function setCardActions(card) {
-  card.querySelector('.card__delete-button').addEventListener('click', removeCard);
-}
-
 function setPopupActions(){
   document.querySelector('.popup__close-button').addEventListener('click', closeFormEdit);
 }
@@ -122,6 +114,3 @@ function setPopupActions(){
 document.querySelector('.profile__add-button').addEventListener('click', () => showFormAddCard('#add-card'));
 document.querySelector('.discover__edit-button').addEventListener('click', () =>showFormEdit('#edit-profile'));
 renderPage();
-
-
-

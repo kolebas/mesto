@@ -1,4 +1,3 @@
-const formDiv = document.querySelector('.popup');
 const cardTemplate = document.querySelector('#card');
 const popupTemplate = document.querySelector('#edit-profile');
 const cardsSection = document.querySelector('.cards');
@@ -42,7 +41,7 @@ function renderCard(card) {
   cardElement.querySelector('.card__image').src = card.link;
   cardsSection.prepend(cardElement);
   cardElement.querySelector('.card__like-button').addEventListener('click', addLike); 
-  cardElement.querySelector('.card__delete-button').addEventListener('click', (evt) => {evt.target.closest('.card').remove()});  
+  cardElement.querySelector('.card__delete-button').addEventListener('click', (evt) => {evt.target.closest('.card').remove(); evt.stopPropagation()});  
   cardElement.addEventListener('click', () => showCard('#show-card', card.name, card.link)); 
 }
 
@@ -64,14 +63,14 @@ function showFormAddCard(form){
   setPopupActions(); 
 }
 
-function showCard(form, title, img){
+function showCard(form, text, img){
   const popup = document.querySelector(form).content.firstElementChild.cloneNode(true);
-  cardsSection.after(popup);
   const title = popup.querySelector('#card-title');
-  const image = popup.querySelector('#card-image');
-  title.textContent = title;
+  const image = popup.querySelector('#card-image');  
+  cardsSection.after(popup);
+  title.textContent = text;
   title.classList.add('popup__title_show-card');
-  image.alt = title; 
+  image.alt = text; 
   image.src = img; 
   image.classList.add('card__image_show-card');
   popup.querySelector('.popup__container').classList.add('popup__container_show-card');
@@ -104,7 +103,8 @@ function closeFormEdit(){
 }
 
 function addLike(evt){
-  evt.target.classList.toggle('card__like-button_active')
+  evt.target.classList.toggle('card__like-button_active');
+  evt.stopPropagation();
 }
 
 function setPopupActions(){

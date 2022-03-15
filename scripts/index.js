@@ -56,8 +56,8 @@ function createCard(card) {
 
 function showFormEdit(){
   openPopup(popupProfile);
-  popupProfile.querySelector('#name').value = discoverName.textContent;
-  popupProfile.querySelector('#job').value  = discoverJob.textContent;
+  inputDiscoverName.value = discoverName.textContent;
+  inputDiscoverJob.value  = discoverJob.textContent;
   popupProfile.querySelector('.popup__form').addEventListener('submit', saveProfile );  
   closePopup(popupProfile); 
 }

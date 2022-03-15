@@ -1,5 +1,5 @@
-const editButtonProfile = document.querySelector('.discover__edit-button');
-const addButtonNewCard = document.querySelector('.profile__add-button');
+const buttonEditProfile = document.querySelector('.discover__edit-button');
+const buttonNewCard = document.querySelector('.profile__add-button');
 const cardTemplate = document.querySelector('#card');
 const popupProfile = document.querySelector('#popup-edit-profile');
 const popupNewCard = document.querySelector('#popup-new-card');
@@ -9,6 +9,12 @@ const discoverName = document.querySelector('.discover__title');
 const discoverJob = document.querySelector('.discover__subtitle');
 const inputDiscoverName = popupProfile.querySelector('#name');
 const inputDiscoverJob = popupProfile.querySelector('#job');
+const formNewCard = popupNewCard.querySelector('.popup__form');
+const titleShowCard = popupShowCard.querySelector('#card-title');
+const imageShowCard = popupShowCard.querySelector('#card-image');
+const popups = document.querySelectorAll('.popup');
+const titleNewCard = popupNewCard.querySelector('#title');
+const linkNewCard = popupNewCard.querySelector('#link');
 
 function renderCard(cards){
   cards.forEach((item) => {
@@ -28,45 +34,33 @@ function createCard(card) {
   return cardElement;
 }
 
-function showFormEdit(){
-  openPopup(popupProfile);
+function showFormEdit(){  
+  openPopup(popupProfile)
   inputDiscoverName.value = discoverName.textContent;
   inputDiscoverJob.value  = discoverJob.textContent;
-  popupProfile.querySelector('.popup__form').addEventListener('submit', saveProfile );  
-  closePopup(popupProfile); 
 }
 
-function showFormAddCard(){
+function showFormNewCard(){
   openPopup(popupNewCard);
-  popupForm = popupNewCard.querySelector('.popup__form');
-  popupForm.addEventListener('submit', (evt) => { saveCard (evt, popupForm)} );  
-  closePopup(popupNewCard);
 }
 
 function showCard(text, img){
-  const title = popupShowCard.querySelector('#card-title');
-  const image = popupShowCard.querySelector('#card-image');  
-  cardsSection.after(popupShowCard);
-  title.textContent = text;
-  title.classList.add('popup__title_show-card');
-  image.alt = text; 
-  image.src = img; 
-  popupShowCard.querySelector('.popup__container').classList.add('popup__container_show-card');
-  popupShowCard.classList.add('popup_opened', 'popup_show-card');
-  closePopup(popupShowCard); 
+  titleShowCard.textContent = text;
+  imageShowCard.alt = text; 
+  imageShowCard.src = img; 
+  openPopup(popupShowCard);
 }
 
 function saveProfile (evt) {
   evt.preventDefault();
   discoverName.textContent = inputDiscoverName.value;
   discoverJob.textContent = inputDiscoverJob.value;
-  closePopup(popupProfile); 
 }
 
 function saveCard(evt, form){
   evt.preventDefault();
-  const title = popupNewCard.querySelector('#title').value
-  const link = popupNewCard.querySelector('#link').value; 
+  const title = titleNewCard.value
+  const link = linkNewCard.value; 
   let card = [{
     name: title,
     link: link,
@@ -81,11 +75,7 @@ function openPopup(popup){
 }
 
 function closePopup(popup){
-  const saveButton = popup.querySelector('.popup__button');
-  if(saveButton){
-    saveButton.addEventListener('click', () => {popup.classList.remove('popup_opened')});
-  }  
-  popup.querySelector('.popup__close-button').addEventListener('click', () => {popup.classList.remove('popup_opened')});
+  popup.classList.remove('popup_opened');
 }
 
 function addLike(evt){
@@ -93,6 +83,15 @@ function addLike(evt){
   evt.stopPropagation();
 }
 
-editButtonProfile.addEventListener('click', () =>showFormEdit('#edit-profile'));
-addButtonNewCard.addEventListener('click', () => showFormAddCard('#add-card'));
+buttonEditProfile.addEventListener('click', () =>showFormEdit('#edit-profile'));
+buttonNewCard.addEventListener('click', () => showFormNewCard('#add-card'));
+popupProfile.querySelector('.popup__form').addEventListener('submit', saveProfile );
+formNewCard.addEventListener('submit', (evt) => { saveCard (evt, formNewCard)} );
+popups.forEach((item) => {
+  const popupSaveButton = item.querySelector('.popup__button');
+  if(popupSaveButton){
+    item.querySelector('.popup__button').addEventListener('click', () => { closePopup(item) });
+  }  
+  item.querySelector('.popup__close-button').addEventListener('click', () => { closePopup(item) });
+}) 
 renderCard(initialCards);

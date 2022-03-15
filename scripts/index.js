@@ -51,7 +51,6 @@ function showCard(text, img){
   title.classList.add('popup__title_show-card');
   image.alt = text; 
   image.src = img; 
-  image.classList.add('card__image_show-card');
   popupShowCard.querySelector('.popup__container').classList.add('popup__container_show-card');
   popupShowCard.classList.add('popup_opened', 'popup_show-card');
   closePopup(popupShowCard); 

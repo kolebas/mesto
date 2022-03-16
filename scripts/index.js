@@ -12,7 +12,7 @@ const inputDiscoverJob = popupProfile.querySelector('#job');
 const formNewCard = popupNewCard.querySelector('.popup__form');
 const titleShowCard = popupShowCard.querySelector('#card-title');
 const imageShowCard = popupShowCard.querySelector('#card-image');
-const popups = document.querySelectorAll('.popup');
+const popups = document.querySelectorAll('.popup'); 
 const titleNewCard = popupNewCard.querySelector('#title');
 const linkNewCard = popupNewCard.querySelector('#link');
 
@@ -55,6 +55,7 @@ function saveProfile (evt) {
   evt.preventDefault();
   discoverName.textContent = inputDiscoverName.value;
   discoverJob.textContent = inputDiscoverJob.value;
+  closePopup(popupProfile);
 }
 
 function saveCard(evt, form){
@@ -68,6 +69,7 @@ function saveCard(evt, form){
   renderCard(card);
   form.reset();
   card = null;
+  closePopup(popupNewCard);
 }
 
 function openPopup(popup){
@@ -88,10 +90,6 @@ buttonNewCard.addEventListener('click', () => showFormNewCard('#add-card'));
 popupProfile.querySelector('.popup__form').addEventListener('submit', saveProfile );
 formNewCard.addEventListener('submit', (evt) => { saveCard (evt, formNewCard)} );
 popups.forEach((item) => {
-  const popupSaveButton = item.querySelector('.popup__button');
-  if(popupSaveButton){
-    item.querySelector('.popup__button').addEventListener('click', () => { closePopup(item) });
-  }  
   item.querySelector('.popup__close-button').addEventListener('click', () => { closePopup(item) });
 }) 
 renderCard(initialCards);

@@ -34,10 +34,10 @@ function createCard(card) {
   return cardElement;
 }
 
-function showFormEdit(){  
-  openPopup(popupProfile)
+function showFormEdit(){ 
   inputDiscoverName.value = discoverName.textContent;
-  inputDiscoverJob.value  = discoverJob.textContent;
+  inputDiscoverJob.value  = discoverJob.textContent;   
+  openPopup(popupProfile)
 }
 
 function showFormNewCard(){

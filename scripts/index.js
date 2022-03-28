@@ -7,9 +7,8 @@ const popupShowCard = document.querySelector('#popup-show-card');
 const cardsSection = document.querySelector('.cards');
 const discoverName = document.querySelector('.discover__title');
 const discoverJob = document.querySelector('.discover__subtitle');
-const inputDiscoverName = popupProfile.querySelector('#name');
+const inputDiscoverName = popupProfile.querySelector('#discover');
 const inputDiscoverJob = popupProfile.querySelector('#job');
-const formNewCard = popupNewCard.querySelector('.popup__form');
 const titleShowCard = popupShowCard.querySelector('#card-title');
 const imageShowCard = popupShowCard.querySelector('#card-image');
 const popups = document.querySelectorAll('.popup'); 
@@ -73,11 +72,27 @@ function saveCard(evt, form){
 }
 
 function openPopup(popup){
+  document.addEventListener('keydown', (event) => closePopupEsc(event, popup));
+  document.addEventListener('click', (event) => closePopupOverlay(event, popup));
   popup.classList.add('popup_opened');
 }
 
 function closePopup(popup){
+  popup.querySelector('.popup__form').reset();
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupEsc, false);
+}
+
+function closePopupEsc(event, popup){
+  if(event.key === "Escape"){
+    closePopup(popup);
+  }
+}
+
+function closePopupOverlay(event, popup){
+  if(event.target.classList.contains('popup_opened')){
+    closePopup(popup);
+  }
 }
 
 function addLike(evt){
@@ -87,8 +102,6 @@ function addLike(evt){
 
 buttonEditProfile.addEventListener('click', () =>showFormEdit('#edit-profile'));
 buttonNewCard.addEventListener('click', () => showFormNewCard('#add-card'));
-popupProfile.querySelector('.popup__form').addEventListener('submit', saveProfile );
-formNewCard.addEventListener('submit', (evt) => { saveCard (evt, formNewCard)} );
 popups.forEach((item) => {
   item.querySelector('.popup__close-button').addEventListener('click', () => { closePopup(item) });
 }) 

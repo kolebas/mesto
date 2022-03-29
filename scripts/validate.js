@@ -8,15 +8,8 @@ function enableValidation(formData) {
 }
 
 
-function handleFormSubmit(event, form){
+function handleFormSubmit(event){
   event.preventDefault();
-  const isValid = form.checkValidity();
-  if(isValid && form.name === 'new-card'){
-    saveCard(event, form);
-  }
-  if(isValid && form.name === 'profile'){
-    saveProfile(event);
-  }
 }
 
 function handleFormInput(event, form, formData){

@@ -78,7 +78,10 @@ function openPopup(popup){
 }
 
 function closePopup(popup){
-  popup.querySelector('.popup__form').reset();
+  const form = popup.querySelector('.popup__form');
+  if(form){
+    form.reset();
+  }
   popup.classList.remove('popup_opened');
   document.removeEventListener('keydown', closePopupEsc, false);
 }

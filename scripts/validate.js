@@ -11,7 +11,6 @@ function enableValidation(formData) {
 function handleFormSubmit(event, form){
   event.preventDefault();
   const isValid = form.checkValidity();
-  console.log(isValid);
   if(isValid && form.name === 'new-card'){
     saveCard(event, form);
   }
@@ -22,23 +21,17 @@ function handleFormSubmit(event, form){
 
 function handleFormInput(event, form, formData){
   const input= event.target;
-  setError(input);  
-  showFieldError(input);
+  showFieldError(input, formData);
+  setInputError(input, formData);
   setButton(form, formData);
 }
 
-function setError(input) {
+function setInputError(input, formData){
   const validity = input.validity;
-  input.setCustomValidity('');
-
-  if(validity.tooShort || validity.tooLong){
-    const currentLength = input.value.length;
-    const min = input.getAttribute('minlength');
-    const max = input.getAttribute('maxlength');
-  }
-
-  if(validity.typeMismatch){
-    showFieldError(input);
+  if(validity.valid){    
+    input.classList.remove(formData.inputErrorClass);
+  } else {    
+    input.classList.add(formData.inputErrorClass);
   }
 }
 

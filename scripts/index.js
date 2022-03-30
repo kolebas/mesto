@@ -68,18 +68,26 @@ function saveCard(evt, form){
   }] 
   renderCard(card);
   form.reset();
+  disableSaveButton(form);
   closePopup(popupNewCard);
+}
+
+function disableSaveButton(form){
+  const button = form.querySelector('.popup__button');
+  button.classList.add('popup__button_disabled');
+  button.setAttribute("disabled", "disabled");
 }
 
 function openPopup(popup){
   document.addEventListener('keydown', closePopupEsc);
-  document.addEventListener('click', (event) => closePopupOverlay(event, popup));
+  document.addEventListener('mousedown', closePopupOverlay);
   popup.classList.add('popup_opened');
 }
 
 function closePopup(popup){
   popup.classList.remove('popup_opened');
   document.removeEventListener('keydown', closePopupEsc);
+  document.removeEventListener('mousedown', closePopupOverlay);
 }
 
 function closePopupEsc(event){

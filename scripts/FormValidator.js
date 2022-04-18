@@ -2,6 +2,8 @@ class FormValidator{
   constructor(formData, formElement){
     this._formData = formData;
     this._form = formElement;
+    this._sendFormButton = this._form.querySelector('.popup__button');
+    this._inputList = this._form.querySelectorAll('.popup__input');
   }
 
   _handleFormSubmit(event){
@@ -13,6 +15,19 @@ class FormValidator{
     this._showFieldError(input, this._formData);
     this._setInputError(input, this._formData);
     this._setButton(this._form, this._formData);
+  }
+
+  resetValidation() {
+    this._toggleButtonState();
+    this._inputList.forEach((input) => {
+      input.classList.remove(this._formData.inputErrorClass); 
+    });
+
+  }
+
+  _toggleButtonState(){
+    this._sendFormButton.classList.add('popup__button_disabled');
+    this._sendFormButton.setAttribute("disabled", "disabled");
   }
   
   _setInputError(input){
@@ -41,8 +56,8 @@ class FormValidator{
     }
   }
   enableValidation(form){
-    form.addEventListener('submit', (event) => this._handleFormSubmit(event, form));
-    form.addEventListener('input', (event) => this._handleFormInput(event, form, this._formData));
+    form.addEventListener('submit', (event) => this._handleFormSubmit(event));
+    form.addEventListener('input', (event) => this._handleFormInput(event));
   }
 }
 

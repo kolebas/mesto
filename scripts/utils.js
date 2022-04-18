@@ -17,4 +17,10 @@ function closePopup(popup){
   document.removeEventListener('mousedown', closePopupOverlay);
 }
 
-export {closePopup, closePopupEsc, closePopupOverlay}
+function openPopup(popup){
+  document.addEventListener('keydown', closePopupEsc);
+  document.addEventListener('mousedown', closePopupOverlay);
+  popup.classList.add('popup_opened');
+}
+
+export {closePopup, closePopupEsc, closePopupOverlay, openPopup}

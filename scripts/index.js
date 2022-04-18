@@ -1,37 +1,44 @@
+import {closePopup, closePopupEsc, closePopupOverlay} from "./utils.js";
+import {Card} from "./Card.js";
+import {FormValidator} from "./FormValidator.js";
 const buttonEditProfile = document.querySelector('.discover__edit-button');
 const buttonNewCard = document.querySelector('.profile__add-button');
-const cardTemplate = document.querySelector('#card');
+const cardTemplate = '#card';
 const popupProfile = document.querySelector('#popup-edit-profile');
 const popupNewCard = document.querySelector('#popup-new-card');
-const popupShowCard = document.querySelector('#popup-show-card');
 const cardsSection = document.querySelector('.cards');
 const discoverName = document.querySelector('.discover__title');
 const discoverJob = document.querySelector('.discover__subtitle');
 const inputDiscoverName = popupProfile.querySelector('#discover');
 const inputDiscoverJob = popupProfile.querySelector('#job');
 const formNewCard = popupNewCard.querySelector('.popup__form');
-const titleShowCard = popupShowCard.querySelector('#card-title');
-const imageShowCard = popupShowCard.querySelector('#card-image');
-const popups = document.querySelectorAll('.popup'); 
+const popups = document.querySelectorAll('.popup');
 const titleNewCard = popupNewCard.querySelector('#title');
 const linkNewCard = popupNewCard.querySelector('#link');
+const formData =   {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+}
+
 
 function renderCard(cards){
   cards.forEach((item) => {
-    cardsSection.prepend(createCard(item))
+    const card = new Card(item, cardTemplate);
+    const cardElement = card.generateCard();
+    cardsSection.prepend(cardElement);
   })
 }
 
-function createCard(card) {
-  const cardElement = cardTemplate.content.firstElementChild.cloneNode(true);
-  const cardImage = cardElement.querySelector('.card__image');
-  cardElement.querySelector('.card__title').textContent = card.name;
-  cardImage.alt = card.name;
-  cardImage.src = card.link;  
-  cardElement.querySelector('.card__like-button').addEventListener('click', toggleLike); 
-  cardElement.querySelector('.card__delete-button').addEventListener('click', (evt) => {evt.target.closest('.card').remove()});  
-  cardImage.addEventListener('click', () => showCard(card.name, card.link)); 
-  return cardElement;
+function validationForm(formData){
+  const forms = Array.from(document.querySelectorAll(formData.formSelector));
+  forms.forEach((item) => {
+    const form = new FormValidator(formData, item);
+    form.enableValidation(item);
+})
 }
 
 function showFormEdit(){ 
@@ -42,13 +49,6 @@ function showFormEdit(){
 
 function showFormNewCard(){
   openPopup(popupNewCard);
-}
-
-function showCard(text, img){
-  titleShowCard.textContent = text;
-  imageShowCard.alt = text; 
-  imageShowCard.src = img; 
-  openPopup(popupShowCard);
 }
 
 function saveProfile (evt) {
@@ -84,28 +84,8 @@ function openPopup(popup){
   popup.classList.add('popup_opened');
 }
 
-function closePopup(popup){
-  popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closePopupEsc);
-  document.removeEventListener('mousedown', closePopupOverlay);
-}
 
-function closePopupEsc(event){
-  if(event.key === "Escape"){
-    const openedPopup = document.querySelector('.popup_opened');
-    closePopup(openedPopup);
-  }
-}
 
-function closePopupOverlay(event){
-  if(event.target.classList.contains('popup_opened')){
-    closePopup(event.target);
-  }
-}
-
-function toggleLike(evt){
-  evt.target.classList.toggle('card__like-button_active');
-}
 
 buttonEditProfile.addEventListener('click', () =>showFormEdit('#edit-profile'));
 buttonNewCard.addEventListener('click', () => showFormNewCard('#add-card'));
@@ -115,3 +95,4 @@ popups.forEach((item) => {
   item.querySelector('.popup__close-button').addEventListener('click', () => { closePopup(item) });
 }) 
 renderCard(initialCards);
+validationForm(formData);

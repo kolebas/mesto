@@ -1,4 +1,4 @@
-class Card {
+export default class Card {
   constructor(cardData, cardTemplate, handleCardClick){
     this._cardTemplate = cardTemplate;
     this._title = cardData.name;
@@ -43,7 +43,7 @@ class Card {
   
   _setEventListeners(){
     this._cardImage.addEventListener('click', () => {
-      this._handleCardClick(this._title, this._image)
+      this._handleCardClick({name: this._title, link: this._image}, this._popupShowCard)
     });
     this._cardDeleteButton.addEventListener('click', (evt) => {
       this._deleteCard(evt)
@@ -53,5 +53,3 @@ class Card {
     }); 
   }
 };
-
-export {Card}

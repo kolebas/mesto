@@ -1,50 +1,36 @@
-import {closePopup, openPopup} from "./utils.js";
-import {Card} from "./Card.js";
-import {FormValidator} from "./FormValidator.js";
-const buttonEditProfile = document.querySelector('.discover__edit-button');
-const buttonNewCard = document.querySelector('.profile__add-button');
-const cardTemplate = '#card';
-const popupShowCard = document.querySelector('#popup-show-card');
-const titleShowCard = popupShowCard.querySelector('#card-title');
-const imageShowCard = popupShowCard.querySelector('#card-image');
-const popupProfile = document.querySelector('#popup-edit-profile');
-const popupNewCard = document.querySelector('#popup-new-card');
-const cardsSection = document.querySelector('.cards');
-const discoverName = document.querySelector('.discover__title');
-const discoverJob = document.querySelector('.discover__subtitle');
-const inputDiscoverName = popupProfile.querySelector('#discover');
-const inputDiscoverJob = popupProfile.querySelector('#job');
-const formNewCard = popupNewCard.querySelector('.popup__form');
-const popups = document.querySelectorAll('.popup');
-const titleNewCard = popupNewCard.querySelector('#title');
-const linkNewCard = popupNewCard.querySelector('#link');
-const formData =   {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible'
-}
-const formValidators = {}
+import Card from "./Card.js";
+import FormValidator from "./FormValidator.js";
+import Section from './components/Section.js';
+import PopupWithImage from './components/PopupWithImage.js';
+import PopupWithForm from './components/PopupWithForm.js';
+import UserInfo from "./components/UserInfo.js";
+import {
+  cardsData,
+  buttonEditProfile,
+  buttonNewCard,
+  cardTemplate,
+  popupProfile,
+  popupNewCard,
+  cardsSection,
+  inputDiscoverName,
+  inputDiscoverJob,
+  formData,
+  formValidators,
+} from './utils/constants.js';
 
-function renderCard(cards){
-  cards.forEach((item) => {
-    cardsSection.prepend(createCard(item));
-  })
-}
+const cards = new Section({
+  items: cardsData,
+  renderer: (item) => {
+    const card = new Card(item, cardTemplate, handleCardClick);
+    const cardElement = card.generateCard();
+    cards.addItem(cardElement);
+  } 
+}, cardsSection)
 
-function createCard(cardData){
-  const card = new Card(cardData, cardTemplate, handleCardClick);
-  const cardElement = card.generateCard();
-  return cardElement;
-}
-
-function handleCardClick(name, link){
-  titleShowCard.textContent = name;
-  imageShowCard.alt = name; 
-  imageShowCard.src = link;   
-  openPopup(popupShowCard);
+function handleCardClick(data, popupElement){
+  const popup = new PopupWithImage(data, popupElement);
+  const popupOpened = popup.open();
+  return popupOpened;
 }
 
 function validationForm(formData){
@@ -60,35 +46,40 @@ const enableValidation = (config) => {
 enableValidation(formData);
 }
 
-function showFormEdit(){ 
-  inputDiscoverName.value = discoverName.textContent;
-  inputDiscoverJob.value  = discoverJob.textContent;   
-  openPopup(popupProfile)
+function showFormEdit(popupElement){
+  const values = new UserInfo();
+  inputDiscoverName.value = values.getUserInfo().name;
+  inputDiscoverJob.value  = values.getUserInfo().title;  
+  const popup = new PopupWithForm(saveProfile, popupElement);
+  const popupOpened = popup.open();
+  return popupOpened;
 }
 
 function showFormNewCard(){
-  openPopup(popupNewCard);
+  const popup = new PopupWithForm(saveCard, popupNewCard);
+  const popupOpened = popup.open();
+  return popupOpened;
 }
 
-function saveProfile (evt) {
+function saveProfile (evt, inputs) {
   evt.preventDefault();
-  discoverName.textContent = inputDiscoverName.value;
-  discoverJob.textContent = inputDiscoverJob.value;
-  closePopup(popupProfile);
+  const data = {
+    name: inputs.find(item => item.name === "discover").value,
+    title: inputs.find(item => item.name === "job").value
+  }
+  const values = new UserInfo();
+  values.setUserInfo(data);
 }
 
-function saveCard(evt, form){
+function saveCard(evt, inputs){
   evt.preventDefault();
-  const title = titleNewCard.value
-  const link = linkNewCard.value; 
-  const card = [{
-    name: title,
-    link: link,
-  }] 
-  renderCard(card);
-  form.reset();
-  disableSaveButton(form);
-  closePopup(popupNewCard);
+  const data = {
+    name: inputs.find(item => item.name === "title").value,
+    link: inputs.find(item => item.name === "link").value
+  }
+  cardsData.push(data);
+  cards.renderCards();
+  disableSaveButton();
 }
 
 function disableSaveButton(){
@@ -96,15 +87,13 @@ function disableSaveButton(){
   formValidators['new-card'].resetValidation();
 }
 
-
-
-
-buttonEditProfile.addEventListener('click', () =>showFormEdit('#edit-profile'));
+buttonEditProfile.addEventListener('click', () =>showFormEdit(popupProfile));
 buttonNewCard.addEventListener('click', () => showFormNewCard('#add-card'));
-popupProfile.querySelector('.popup__form').addEventListener('submit', saveProfile );
-formNewCard.addEventListener('submit', (evt) => { saveCard (evt, formNewCard)} );
-popups.forEach((item) => {
+//popupProfile.querySelector('.popup__form').addEventListener('submit', (evt) => saveProfile(evt, popupProfile) );
+//formNewCard.addEventListener('submit', (evt) => { saveCard (evt, formNewCard)} );
+/*popups.forEach((item) => {
   item.querySelector('.popup__close-button').addEventListener('click', () => { closePopup(item) });
-}) 
-renderCard(initialCards);
-validationForm(formData);
+})*/ 
+//renderCard(initialCards);
+validationForm(formData);    
+cards.renderCards();

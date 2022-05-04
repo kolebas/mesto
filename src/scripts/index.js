@@ -28,7 +28,6 @@ const cards = new Section({
   } 
 }, cardsSection)
 
-
 const values = new UserInfo();
 
 function handleCardClick(data, popupElement){
@@ -89,7 +88,7 @@ function disableSaveButton(){
   formValidators['new-card'].resetValidation();
 }
 
-buttonEditProfile.addEventListener('click', () =>showFormEdit());
+buttonEditProfile.addEventListener('click', () => showFormEdit());
 buttonNewCard.addEventListener('click', () => showFormNewCard());
 validationForm(formData);    
 cards.renderCards();

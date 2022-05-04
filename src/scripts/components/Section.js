@@ -6,6 +6,9 @@ export default class Section {
   }
 
   renderCards(){
+    while (this._container.firstChild) {
+      this._container.removeChild(this._container.firstChild);
+    }
     this._items.forEach(item => {
       this._renderer(item);
     });

@@ -1,6 +1,5 @@
 
 import Popup from "./Popup.js";
-import UserInfo from "./UserInfo.js";
 
 export default class PopupWithForm extends Popup {
   constructor(handleSubmit, element){
@@ -32,8 +31,6 @@ export default class PopupWithForm extends Popup {
   close(){
     this._form.reset();
     super.close();
-    //discoverName.textContent = this._name;
-    //discoverJob.textContent = this._title;
   }
 }
 

@@ -1,5 +1,5 @@
-import Card from "./Card.js";
-import FormValidator from "./FormValidator.js";
+import Card from "./components/Card.js";
+import FormValidator from "./components/FormValidator.js";
 import Section from './components/Section.js';
 import PopupWithImage from './components/PopupWithImage.js';
 import PopupWithForm from './components/PopupWithForm.js';
@@ -27,6 +27,9 @@ const cards = new Section({
   } 
 }, cardsSection)
 
+
+const values = new UserInfo();
+
 function handleCardClick(data, popupElement){
   const popup = new PopupWithImage(data, popupElement);
   const popupOpened = popup.open();
@@ -46,11 +49,10 @@ const enableValidation = (config) => {
 enableValidation(formData);
 }
 
-function showFormEdit(popupElement){
-  const values = new UserInfo();
+function showFormEdit(){
   inputDiscoverName.value = values.getUserInfo().name;
   inputDiscoverJob.value  = values.getUserInfo().title;  
-  const popup = new PopupWithForm(saveProfile, popupElement);
+  const popup = new PopupWithForm(saveProfile, popupProfile);
   const popupOpened = popup.open();
   return popupOpened;
 }
@@ -67,7 +69,6 @@ function saveProfile (evt, inputs) {
     name: inputs.find(item => item.name === "discover").value,
     title: inputs.find(item => item.name === "job").value
   }
-  const values = new UserInfo();
   values.setUserInfo(data);
 }
 
@@ -87,13 +88,7 @@ function disableSaveButton(){
   formValidators['new-card'].resetValidation();
 }
 
-buttonEditProfile.addEventListener('click', () =>showFormEdit(popupProfile));
-buttonNewCard.addEventListener('click', () => showFormNewCard('#add-card'));
-//popupProfile.querySelector('.popup__form').addEventListener('submit', (evt) => saveProfile(evt, popupProfile) );
-//formNewCard.addEventListener('submit', (evt) => { saveCard (evt, formNewCard)} );
-/*popups.forEach((item) => {
-  item.querySelector('.popup__close-button').addEventListener('click', () => { closePopup(item) });
-})*/ 
-//renderCard(initialCards);
+buttonEditProfile.addEventListener('click', () =>showFormEdit());
+buttonNewCard.addEventListener('click', () => showFormNewCard());
 validationForm(formData);    
 cards.renderCards();

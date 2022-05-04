@@ -58,8 +58,8 @@ function showFormEdit(){
 }
 
 function showFormNewCard(){
-  const popup = new PopupWithForm(saveCard, popupNewCard);
-  const popupOpened = popup.open();
+  const popupAddCard = new PopupWithForm(saveCard, popupNewCard);  
+  const popupOpened = popupAddCard.open();
   return popupOpened;
 }
 

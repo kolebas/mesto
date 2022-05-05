@@ -1,19 +1,17 @@
-import { imageShowCard, titleShowCard } from '../utils/constants.js';
 import Popup from './Popup.js';
 
 export default class PopupWithImage extends Popup {
-  constructor(data, element){
+  constructor(element){
     super(element);
-    this._title = data.name;
-    this._image = data.link; 
+    this._title = document.querySelector('#card-title');
+    this._image = document.querySelector('#card-image');
   }
 
-  open(){
-    imageShowCard.alt = this._title; 
-    imageShowCard.src = this._image;
-    titleShowCard.textContent = this._title;
+  open(data){
+    this._title.alt = data.name; 
+    this._image.src = data.link;
+    this._title.textContent = data.name;
     super.open();
-    super._setEventListeners();
   }
 
 }

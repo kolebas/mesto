@@ -1,7 +1,7 @@
 export default class UserInfo {
-  constructor(){
-    this._name = document.querySelector('.discover__title'),
-    this._title = document.querySelector('.discover__subtitle')
+  constructor(data){
+    this._name = data.name,
+    this._title = data.title
   }
 
   getUserInfo(){

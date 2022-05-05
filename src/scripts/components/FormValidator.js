@@ -14,20 +14,19 @@ export default class FormValidator{
     const input= event.target;
     this._showFieldError(input, this._formData);
     this._setInputError(input, this._formData);
-    this._setButton(this._form, this._formData);
+    this._toggleButtonState(this._form, this._formData);
   }
 
-  resetValidation() {
-    this._toggleButtonState();
+  resetValidation() {    
+    this._setButton();
     this._inputList.forEach((input) => {
       input.classList.remove(this._formData.inputErrorClass); 
     });
 
   }
 
-  _toggleButtonState(){
+  _setButton(){
     this._sendFormButton.classList.add('popup__button_disabled');
-    this._sendFormButton.setAttribute("disabled", "disabled");
   }
   
   _setInputError(input){
@@ -44,7 +43,7 @@ export default class FormValidator{
     span.textContent = input.validationMessage;
   }
   
-  _setButton(form, formData){
+  _toggleButtonState(form, formData){
     const button = form.querySelector(formData.submitButtonSelector);
     const isValid = form.checkValidity();
     if(isValid){
@@ -55,8 +54,8 @@ export default class FormValidator{
       button.setAttribute("disabled", "disabled");
     }
   }
-  enableValidation(form){
-    form.addEventListener('submit', (event) => this._handleFormSubmit(event));
-    form.addEventListener('input', (event) => this._handleFormInput(event));
+  enableValidation(){
+    this._form.addEventListener('submit', (event) => this._handleFormSubmit(event));
+    this._form.addEventListener('input', (event) => this._handleFormInput(event));
   }
 }

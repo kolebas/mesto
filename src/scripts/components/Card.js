@@ -9,9 +9,6 @@ export default class Card {
     this._cardTitle = this._element.querySelector('.card__title');
     this._cardDeleteButton = this._element.querySelector('.card__delete-button');
     this._cardLikeButton = this._element.querySelector('.card__like-button');
-    this._popupShowCard = document.querySelector('#popup-show-card');
-    this._titleShowCard = this._popupShowCard.querySelector('#card-title');
-    this._imageShowCard = this._popupShowCard.querySelector('#card-image');
   }
 
   _getTemplate() {
@@ -43,7 +40,7 @@ export default class Card {
   
   _setEventListeners(){
     this._cardImage.addEventListener('click', () => {
-      this._handleCardClick({name: this._title, link: this._image}, this._popupShowCard)
+      this._handleCardClick({name: this._title, link: this._image})
     });
     this._cardDeleteButton.addEventListener('click', (evt) => {
       this._deleteCard(evt)

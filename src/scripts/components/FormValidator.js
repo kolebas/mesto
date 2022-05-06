@@ -2,8 +2,8 @@ export default class FormValidator{
   constructor(formData, formElement){
     this._formData = formData;
     this._form = formElement;
-    this._sendFormButton = this._form.querySelector('.popup__button');
-    this._inputList = this._form.querySelectorAll('.popup__input');
+    this._sendFormButton = this._form.querySelector(this._formData.submitButtonSelector);
+    this._inputList = this._form.querySelectorAll(this._formData.inputSelector);
   }
 
   _handleFormSubmit(event){
@@ -14,19 +14,14 @@ export default class FormValidator{
     const input= event.target;
     this._showFieldError(input, this._formData);
     this._setInputError(input, this._formData);
-    this._toggleButtonState(this._form, this._formData);
+    this._toggleButtonState();
   }
 
-  resetValidation() {    
-    this._setButton();
+  resetValidation() {
+    this._toggleButtonState();
     this._inputList.forEach((input) => {
       input.classList.remove(this._formData.inputErrorClass); 
     });
-
-  }
-
-  _setButton(){
-    this._sendFormButton.classList.add('popup__button_disabled');
   }
   
   _setInputError(input){
@@ -43,14 +38,14 @@ export default class FormValidator{
     span.textContent = input.validationMessage;
   }
   
-  _toggleButtonState(form, formData){
-    const button = form.querySelector(formData.submitButtonSelector);
-    const isValid = form.checkValidity();
+  _toggleButtonState(){
+    const button =  this._sendFormButton;
+    const isValid = this._form.checkValidity();
     if(isValid){
-      button.classList.remove(formData.inactiveButtonClass);
+      button.classList.remove(this._formData.inactiveButtonClass);
       button.removeAttribute("disabled", "disabled");
     } else {
-      button.classList.add(formData.inactiveButtonClass);    
+      button.classList.add(this._formData.inactiveButtonClass);    
       button.setAttribute("disabled", "disabled");
     }
   }

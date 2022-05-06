@@ -52,8 +52,7 @@ const values = new UserInfo(
 );
 
 function handleCardClick(data){
-  const popupOpened = popupShowCard.open(data);
-  return popupOpened;
+  popupShowCard.open(data);
 }
 
 function validationForm(formData){
@@ -74,8 +73,7 @@ function showFormEdit(){
   const {name, title} = values.getUserInfo()
   inputDiscoverName.value = name;
   inputDiscoverJob.value  = title 
-  const popupOpened = popupEditProfile.open();
-  return popupOpened;
+  popupEditProfile.open();
 }
 
 function showFormNewCard(){

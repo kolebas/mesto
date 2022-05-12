@@ -10,4 +10,4 @@
 **Описание**
 
 Проектная работа третьего спринта с javascript.
-Ссылка на GitHub Pages: [Проектная работа №7: Mesto](https://kolebas.github.io/mesto/index.html)
+Ссылка на GitHub Pages: [Проектная работа №9: Mesto](https://kolebas.github.io/mesto/index.html)

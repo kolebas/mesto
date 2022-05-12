@@ -5,6 +5,15 @@
   margin-right: 24.37px;
   object-fit: cover;
   grid-area: avatar;
+  transition: opacity, .3s;
+}
+
+.discover__avatar:hover {
+  background-image: url('../../../images/card-heart.svg');
+  cursor: pointer;
+  opacity: .2;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 @media screen and (max-width: 590px) {

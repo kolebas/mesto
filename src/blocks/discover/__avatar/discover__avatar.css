@@ -1,7 +1,7 @@
 .discover__avatar {
   border-radius: 50%;
   border: none;
-  object-fit: cover;  
+  object-fit: cover;
   transition: opacity, .3s;
 }
 

@@ -1,5 +1,5 @@
-.discover__avatar_edit {
-  background: url("../../../../images/edit-button.svg");
+.discover__avatar-edit {
+  background: url("../../../images/edit-button.svg");
   background-size: 26px;
   border: none;
   width: 120px;

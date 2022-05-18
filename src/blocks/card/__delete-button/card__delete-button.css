@@ -10,6 +10,7 @@
   width: 18px;
   height: 18px;
   transition: opacity, .3s;
+  display: none;
 }
 
 .card__delete-button:hover {

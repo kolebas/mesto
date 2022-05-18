@@ -1,12 +1,14 @@
-import Api from './Api.js';
-
 export default class Card {
-  constructor(cardData, cardTemplate, handleCardClick){
+  constructor(cardData, cardTemplate, handleCardClick, handleDeleteIconClick, handleLikeClick){
     this._cardTemplate = cardTemplate;
+    this._cardOwner = cardData.owner;
     this._title = cardData.name;
+    this._id = cardData._id;
     this._image = cardData.link;
-    this._likeCount = cardData.likes ? cardData.likes.length : 0;
+    this._likes = cardData.likes ? cardData.likes : [];
     this._handleCardClick = handleCardClick;
+    this._handleDeleteIconClick = handleDeleteIconClick;
+    this._handleLikeClick = handleLikeClick
     this._element = this._getTemplate();
     this._cardImage = this._element.querySelector('.card__image');
     this._cardTitle = this._element.querySelector('.card__title');
@@ -24,33 +26,30 @@ export default class Card {
     return cardElement;
   }
 
-  generateCard(){
+  generateCard(owner){
+    if(this._cardOwner && this._cardOwner._id === owner){  
+      this._cardDeleteButton.classList.add('card__delete-button_show');
+    }
+    if(this._likes.some(item => item._id === owner)){
+      this._cardLikeButton.classList.add('card__like-button_active'); 
+    }
     this._cardTitle.textContent = this._title;
     this._cardImage.alt = this._title;
     this._cardImage.src = this._image;
-    this._cardLikeCounter.textContent = this._likeCount;        
+    this._cardLikeCounter.textContent = this._likes.length;        
     this._setEventListeners();
     return this._element; 
-  }
-
-  _toggleLike(evt){
-    evt.target.classList.toggle('card__like-button_active');
-  }
-
-  _deleteCard(evt){
-    console.log(evt.target.closest('.card'))
-    evt.target.closest('.card').remove();
   }
   
   _setEventListeners(){
     this._cardImage.addEventListener('click', () => {
       this._handleCardClick({name: this._title, link: this._image})
     });
-    this._cardDeleteButton.addEventListener('click', (evt) => {
-      this._deleteCard(evt)
+    this._cardDeleteButton.addEventListener('click', () => {
+      this._handleDeleteIconClick({id: this._id})
     });
-    this._cardLikeButton.addEventListener('click', (evt) =>{ 
-      this._toggleLike(evt)
+    this._cardLikeButton.addEventListener('click', () =>{ 
+      this._handleLikeClick({id: this._id, card: this._element, likes: this._likes.length})
     }); 
   }
 };

@@ -4,11 +4,14 @@ export const headers = {
   'Content-Type': 'application/json'
 };
 export const buttonEditProfile = document.querySelector('.discover__edit-button');
+export const avatar = document.querySelector('.discover__avatar');
 export const buttonNewCard = document.querySelector('.profile__add-button');
 export const cardTemplate = '#card';
 export const popupCard = document.querySelector('#popup-show-card');
 export const titleShowCard = popupCard.querySelector('#card-title');
 export const imageShowCard = popupCard.querySelector('#card-image');
+export const popupAvatar = document.querySelector('#popup-edit-avatar');
+export const popupSubmit = document.querySelector('#popup-submit');
 export const popupProfile = document.querySelector('#popup-edit-profile');
 export const popupNewCard = document.querySelector('#popup-new-card');
 export const cardsSection = '.cards';

@@ -121,14 +121,13 @@ function handleLikeClick(data){
   let action = null;
   if(cardLikeButton.classList.contains('card__like-button_active')){    
     action = api.changeLikeCard('DELETE',data.id);
-    cardLikeCounter.textContent = data.likes - 1;
   } else {
     action = api.changeLikeCard('PUT',data.id);
-    cardLikeCounter.textContent = data.likes + 1;
   }  
   action
-  .then(() => {    
+  .then((data) => {    
     cardLikeButton.classList.toggle('card__like-button_active');
+    cardLikeCounter.textContent = data.likes.length;
   })
   .catch((err) => {
     console.log(err);

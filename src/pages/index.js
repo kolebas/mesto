@@ -51,11 +51,12 @@ const cards = new Section({
   } 
 }, cardsSection)  
 
-const values = new UserInfo(
+const userInfo = new UserInfo(
   {
     name: discoverName,
     about: discoverJob,
     avatar: avatar,
+    _id: null,
   }
 );
 
@@ -79,7 +80,7 @@ function loadCards(){
 
 api.setProfile()
   .then(data => {
-    values.setProfile(data);
+    userInfo.setProfile(data);
     userId = data._id;
     loadCards();
   })
@@ -111,14 +112,14 @@ function deleteCard(card){
   .catch((err) => {
     console.log(err);
   })
-  .finally(    
-    renderLoading(popupSubmit, false, 'Да')
-  )
+  .finally(() => {
+    renderLoading(popupSubmit, false, "Да");
+  });
 }
 
 function handleLikeClick(card){  
   let action = null;
-  if(card._cardLikeButton.classList.contains('card__like-button_active')){    
+  if(card.isLiked()){    
     action = api.changeLikeCard('DELETE',card._id);
   } else {
     action = api.changeLikeCard('PUT',card._id);
@@ -147,7 +148,7 @@ enableValidation(formData);
 
 function showFormEdit(){  
   formValidators['profile'].resetValidation();
-  const {name, about} = values.getUserInfo()
+  const {name, about} = userInfo.getUserInfo()
   inputDiscoverName.value = name;
   inputDiscoverJob.value  = about; 
   popupEditProfile.open();
@@ -173,16 +174,16 @@ function saveAvatar(evt, inputs){
   api.updateAvatar(data)
   .then(res => {
     if (res) {      
-      values.setAvatar(data);      
+      userInfo.setProfile(res);      
       popupEditAvatar.close();
     }
   })
   .catch((err) => {
     console.log(err);
   })
-  .finally(    
-    renderLoading(popupAvatar, false)
-  )
+  .finally(() => {
+    renderLoading(popupSubmit, false);
+  });
 }
 
 function saveProfile (evt, inputs) {
@@ -195,16 +196,16 @@ function saveProfile (evt, inputs) {
   api.updateUserInfo(data)
   .then(res => {
     if (res) { 
-      values.setUserInfo(data);            
+      userInfo.setProfile(res);             
       popupEditProfile.close();
     }
   })
   .catch((err) => {
     console.log(err);
   })
-  .finally(    
-    renderLoading(popupProfile, false)
-  )
+  .finally(() => {
+    renderLoading(popupSubmit, false);
+  });
 }
 
 function renderLoading(popup, status, message = 'Сохранить'){
@@ -234,9 +235,9 @@ function saveCard(evt, inputs){
   .catch((err) => {
     console.log(err);
   })
-  .finally(    
-    renderLoading(popupNewCard, false)
-  )
+  .finally(() => {
+    renderLoading(popupSubmit, false);
+  });
 }
 
 buttonEditProfile.addEventListener('click', () => showFormEdit());

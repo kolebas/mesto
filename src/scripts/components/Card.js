@@ -49,6 +49,10 @@ export default class Card {
   deleteCard(data){
     data._element.remove();
   }
+
+  isLiked(){
+    return this._cardLikeButton.classList.contains('card__like-button_active');
+  }
   
   _setEventListeners(){
     this._cardImage.addEventListener('click', () => {

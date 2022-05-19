@@ -1,11 +1,11 @@
 import '../pages/index.css';
-import Card from "./components/Card.js";
-import FormValidator from "./components/FormValidator.js";
-import Section from './components/Section.js';
-import Api from './components/Api.js';
-import PopupWithImage from './components/PopupWithImage.js';
-import PopupWithForm from './components/PopupWithForm.js';
-import UserInfo from "./components/UserInfo.js";
+import Card from "../scripts/components/Card.js";
+import FormValidator from "../scripts/components/FormValidator.js";
+import Section from '../scripts/components/Section.js';
+import Api from '../scripts/components/Api.js';
+import PopupWithImage from '../scripts/components/PopupWithImage.js';
+import PopupWithForm from '../scripts/components/PopupWithForm.js';
+import UserInfo from "../scripts/components/UserInfo.js";
 import {
   url,
   headers,
@@ -25,8 +25,8 @@ import {
   inputDiscoverJob,
   formData,
   formValidators,
-} from './utils/constants.js';
-import PopupWithSubmit from './components/PopupWithSubmit';
+} from '../scripts/utils/constants.js';
+import PopupWithSubmit from '../scripts/components/PopupWithSubmit';
 
 const popupEditProfile = new PopupWithForm(saveProfile, popupProfile);
 popupEditProfile.setEventListeners();
@@ -42,8 +42,14 @@ const api = new Api({
   headers: headers,
   method: 'GET',
 });
-let cards = null;
 let userId = null;
+
+const cards = new Section({
+  renderer: (item) => {
+    const cardElement = createCard(item, userId);
+    cards.addItem(cardElement);
+  } 
+}, cardsSection)  
 
 const values = new UserInfo(
   {
@@ -61,35 +67,28 @@ function createCard(item, owner) {
   return cardElement
 }
 
-function loadCards(owner){
+function loadCards(){
   api.getInitialCards()
     .then(data => {
-      renderCards(data, owner)
+      renderCards(data)
     })
     .catch((err) => {
       console.log(err); 
     });
 }
 
-api.editProfile('GET')
+api.setProfile()
   .then(data => {
-    values.setUserInfo(data);
+    values.setProfile(data);
     userId = data._id;
-    loadCards(userId);
+    loadCards();
   })
   .catch((err) => {
     console.log(err);
   });  
 
-function renderCards(data, owner){
-  cards = new Section({
-    items: data,
-    renderer: (item) => {
-      const cardElement = createCard(item, owner);
-      cards.addItem(cardElement);
-    } 
-  }, cardsSection)  
-  cards.renderCards();
+function renderCards(data){
+  cards.renderCards(data);
 }
 
 function handleCardClick(data){
@@ -98,36 +97,35 @@ function handleCardClick(data){
 
 function handleDeleteIconClick(data){
   popupWithSubmit.open();
-  popupWithSubmit._setCardId(data);
+  popupWithSubmit.setCardId(data);
 }
 
-function deleteCard(data){
-  preloader(popupSubmit, true);
-  api.deleteCard('DELETE',data.id)
+function deleteCard(card){
+  renderLoading(popupSubmit, true);
+  console.log(popupSubmit)
+  api.deleteCard('DELETE',card._id)
   .then(() => {    
+    card.deleteCard(card)
     popupWithSubmit.close();
-    preloader(popupSubmit, false, 'Да');
-    loadCards(userId)
   })
   .catch((err) => {
     console.log(err);
-  });
+  })
+  .finally(    
+    renderLoading(popupSubmit, false, 'Да')
+  )
 }
 
-function handleLikeClick(data){
-  const card = data.card;
-  const cardLikeButton = card.querySelector('.card__like-button');
-  const cardLikeCounter = this._element.querySelector('.card__like-counter');
+function handleLikeClick(card){  
   let action = null;
-  if(cardLikeButton.classList.contains('card__like-button_active')){    
-    action = api.changeLikeCard('DELETE',data.id);
+  if(card._cardLikeButton.classList.contains('card__like-button_active')){    
+    action = api.changeLikeCard('DELETE',card._id);
   } else {
-    action = api.changeLikeCard('PUT',data.id);
+    action = api.changeLikeCard('PUT',card._id);
   }  
   action
-  .then((data) => {    
-    cardLikeButton.classList.toggle('card__like-button_active');
-    cardLikeCounter.textContent = data.likes.length;
+  .then((res) => {
+    card.updateLikes(res)
   })
   .catch((err) => {
     console.log(err);
@@ -167,48 +165,49 @@ function showFormAvatar(){
 }
 
 function saveAvatar(evt, inputs){  
-  preloader(popupAvatar, true);
+  renderLoading(popupAvatar, true);
   evt.preventDefault();
   const data = {
-    name: discoverName.textContent,
-    about: discoverJob.textContent,
     avatar: inputs.find(item => item.name === "avatar-link").value
   }
-  api.editProfile('PATCH', data, '/users/me/avatar')
+  api.updateAvatar(data)
   .then(res => {
     if (res) {      
       values.setAvatar(data);      
       popupEditAvatar.close();
-      preloader(popupAvatar, false);
     }
   })
   .catch((err) => {
     console.log(err);
-  });
+  })
+  .finally(    
+    renderLoading(popupAvatar, false)
+  )
 }
 
 function saveProfile (evt, inputs) {
-  preloader(popupProfile, true);
+  renderLoading(popupProfile, true);
   evt.preventDefault();
   const data = {
     name: inputs.find(item => item.name === "discover").value,
     about: inputs.find(item => item.name === "job").value,
-    avatar: avatar.src
   }
-  api.editProfile('PATCH', data)
+  api.updateUserInfo(data)
   .then(res => {
     if (res) { 
       values.setUserInfo(data);            
       popupEditProfile.close();
-      preloader(popupProfile, false);
     }
   })
   .catch((err) => {
     console.log(err);
-  });
+  })
+  .finally(    
+    renderLoading(popupProfile, false)
+  )
 }
 
-function preloader(popup, status, message = 'Сохранить'){
+function renderLoading(popup, status, message = 'Сохранить'){
   const button = popup.querySelector('.popup__button');
   if(status){
     button.textContent = 'Сохранение...';
@@ -218,19 +217,26 @@ function preloader(popup, status, message = 'Сохранить'){
 }
 
 function saveCard(evt, inputs){
-  preloader(popupNewCard, true);
+  renderLoading(popupNewCard, true);
   evt.preventDefault();
   const data = {
     name: inputs.find(item => item.name === "title").value,
     link: inputs.find(item => item.name === "link").value
   }
-  api.addCard('POST', data).then(res => {
-    if (res) {    
-      popupShowCard.close();
-      preloader(popupNewCard, false);      
-      loadCards(userId);  
+  api.addCard('POST', data)
+  .then(res => {
+    if (res) {
+      const cardElement = createCard(res, userId);
+      cards.prependItem(cardElement);
+      popupAddCard.close();
     }
   })
+  .catch((err) => {
+    console.log(err);
+  })
+  .finally(    
+    renderLoading(popupNewCard, false)
+  )
 }
 
 buttonEditProfile.addEventListener('click', () => showFormEdit());

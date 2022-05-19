@@ -8,12 +8,7 @@ export default class Api{
     return fetch(`${this._url}/cards`, {
       headers: this._headers
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        } 
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
+      .then(this._checkResponse)
       .then((data) => {
         return data
       }) 
@@ -25,12 +20,7 @@ export default class Api{
       headers: this._headers,
       body: JSON.stringify(data)
     })
-      .then(res => {
-        if (res.ok) {          
-          return res.json();          
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }) 
+      .then(this._checkResponse) 
   }
 
   deleteCard(method,cardId){
@@ -38,12 +28,7 @@ export default class Api{
       headers: this._headers,
       method: method,
     })
-    .then(res => {
-      if (res.ok) {          
-        return res.json();          
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    }) 
+    .then(this._checkResponse) 
   }
 
   changeLikeCard(method,cardId){
@@ -51,28 +36,46 @@ export default class Api{
       headers: this._headers,
       method: method,
     })
-    .then(res => {
-      if (res.ok) {          
-        return res.json();          
-      }
-      return Promise.reject(`Ошибка: ${res.status}`); 
-    }) 
+    .then(this._checkResponse) 
   }
 
-  editProfile(method, data, addUrl = '/users/me'){
-    return fetch(this._url + addUrl, {
-      method: method,
+  setProfile(){
+    return fetch(this._url + '/users/me', {
+      method: 'GET',
       headers: this._headers,
-      body: JSON.stringify(data)
     })
-      .then(res => {
-        if (res.ok) {          
-          return res.json();          
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
+      .then(this._checkResponse)
       .then(data => {
         return data;
       })  
+  }
+
+  updateUserInfo(data){
+    return fetch(this._url + '/users/me', {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify(data)
+    })
+      .then(this._checkResponse)
+      .then(data => {
+        return data;
+      })  
+  }
+  updateAvatar(data){
+    return fetch(this._url + '/users/me/avatar', {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify(data)
+    })
+      .then(this._checkResponse)
+      .then(data => {
+        return data;
+      })  
+  }
+  _checkResponse(res) {
+    if (res.ok) {
+      return res.json();
+    } 
+    return Promise.reject(`Ошибка: ${res.status}`);
   }
 }

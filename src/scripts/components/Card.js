@@ -40,16 +40,25 @@ export default class Card {
     this._setEventListeners();
     return this._element; 
   }
+
+  updateLikes(data){
+    this._cardLikeButton.classList.toggle('card__like-button_active');
+    this._cardLikeCounter.textContent = data.likes.length;
+  }
+
+  deleteCard(data){
+    data._element.remove();
+  }
   
   _setEventListeners(){
     this._cardImage.addEventListener('click', () => {
       this._handleCardClick({name: this._title, link: this._image})
     });
     this._cardDeleteButton.addEventListener('click', () => {
-      this._handleDeleteIconClick({id: this._id})
+      this._handleDeleteIconClick(this)
     });
     this._cardLikeButton.addEventListener('click', () =>{ 
-      this._handleLikeClick({id: this._id, card: this._element, likes: this._likes.length})
+      this._handleLikeClick(this)
     }); 
   }
 };

@@ -16,11 +16,8 @@ export default class PopupWithSubmit extends Popup {
     super.setEventListeners();
   }
 
-  _setCardId(data){
+  setCardId(data){
     this._cardId = data;
   }
 
-  close(){
-    super.close();
-  }
 }

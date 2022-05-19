@@ -12,8 +12,8 @@ export default class FormValidator{
   
   _handleFormInput(event){
     const input= event.target;
-    this._showFieldError(input, this._formData);
-    this._setInputError(input, this._formData);
+    this._showFieldError(input);
+    this._setInputError(input);
     this._toggleButtonState();
   }
 
@@ -34,7 +34,7 @@ export default class FormValidator{
   }
   
   _showFieldError(input){
-    const span = document.querySelector(`#${input.id}-error`);
+    const span = this._form.querySelector(`#${input.id}-error`);
     span.textContent = input.validationMessage;
   }
   

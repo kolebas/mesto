@@ -14,10 +14,15 @@ export default class UserInfo {
     return data;
   }
 
-  setUserInfo(data){
+  setProfile(data){
     this._name.textContent = data.name;
     this._about.textContent = data.about;
     this._avatar.src = data.avatar;
+  }
+
+  setUserInfo(data){
+    this._name.textContent = data.name;
+    this._about.textContent = data.about;
   }
   
   setAvatar(data){
